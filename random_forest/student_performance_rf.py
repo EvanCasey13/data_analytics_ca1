@@ -11,6 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import f1_score, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
+from sklearn.tree import plot_tree
 warnings.filterwarnings('ignore')
 
 dataframe = pd.read_csv('./datasets/Student_performance.csv', encoding='latin1')
@@ -86,3 +87,19 @@ importances = list(regressor.feature_importances_)
 importance_df = pd.DataFrame({'Feature': X.columns, 'Importance': importances})
 importance_df = importance_df.sort_values(by="Importance", ascending=False)
 print(importance_df)
+
+# Visualisations
+# Feature importance
+plt.figure(figsize=(12, 6))
+sns.barplot(x='Importance', y='Feature', data=importance_df, palette='viridis')
+plt.title('Feature Importance in Random Forest Model')
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+#plt.show()
+
+# Correlation matrix
+plt.figure(figsize=(12, 8))
+correlation_matrix = X.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title("Correlation Matrix")
+plt.show()
