@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import sklearn
 import warnings
 
 from sklearn.preprocessing import LabelEncoder
@@ -46,29 +45,44 @@ print(dataframe.info())
 
 # Section 2 - Data cleaning and preparation 
 
-# Feature selection
-selected_features = ['gender', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-total_score = dataframe['total_score']
-
 # Train the random forest model
-label_encoder = LabelEncoder()
-x_categorical = dataframe[selected_features].apply(label_encoder.fit_transform)
-x_numerical = dataframe.select_dtypes(exclude=['object']).values
-x = x_categorical
-y = total_score.values  #Target variable
+X = dataframe.drop(columns=["total_score"])
+y = dataframe["total_score"]
+
+# Convert categorical features
+categorical_columns = X.select_dtypes(include=['object']).columns
+for col in categorical_columns:
+    le = LabelEncoder()
+    X[col] = le.fit_transform(X[col])
+    
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 regressor = RandomForestRegressor(n_estimators=10, random_state=0, oob_score=True)
 
-regressor.fit(x, y)
+regressor.fit(X_train, y_train)
 
 # OOB Score for model performance evaluation
 oob_score = regressor.oob_score_
 print(f'Out-of-Bag Score: {oob_score}')
 
-predictions = regressor.predict(x)
+predictions = regressor.predict(X_test)
 
-mse = mean_squared_error(y, predictions)
+mse = mean_squared_error(y_test, predictions)
 print(f'Mean Squared Error: {mse}')
 
-r2 = r2_score(y, predictions)
+r2 = r2_score(y_test, predictions)
 print(f'R-squared: {r2}')
+
+# Cross val score
+scores = cross_val_score(regressor, X_test, y_test, cv=5, scoring='r2')
+print(f'Cross validation r2 scores: {scores}')
+print(f'Mean r2: {np.mean(scores)}')
+
+# Feature importance
+importances = list(regressor.feature_importances_)
+
+# Display results
+importance_df = pd.DataFrame({'Feature': X.columns, 'Importance': importances})
+importance_df = importance_df.sort_values(by="Importance", ascending=False)
+print(importance_df)
