@@ -40,8 +40,8 @@ y = dataframe[["MathScore", "ReadingScore", "WritingScore"]]
 
 # Convert categorical features
 categorical_columns = X.select_dtypes(include=['object']).columns
+le = LabelEncoder()
 for col in categorical_columns:
-    le = LabelEncoder()
     X[col] = le.fit_transform(X[col])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)

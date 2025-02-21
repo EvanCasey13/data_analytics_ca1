@@ -52,8 +52,8 @@ y = dataframe["total_score"]
 
 # Convert categorical features
 categorical_columns = X.select_dtypes(include=['object']).columns
+le = LabelEncoder()
 for col in categorical_columns:
-    le = LabelEncoder()
     X[col] = le.fit_transform(X[col])
     
 # Split data
