@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, root_mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, root_mean_squared_error, explained_variance_score
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
@@ -46,21 +46,25 @@ mse_test = mean_squared_error(y_test, y_pred_test)
 mae_test = mean_absolute_error(y_test, y_pred_test)
 r2_test = r2_score(y_test, y_pred_test)
 rmse_test = root_mean_squared_error(y_test, y_pred_test)
+evs_test = explained_variance_score(y_test, y_pred_test)
 
 # train
 mse_train = mean_squared_error(y_train, y_pred_train)
 mae_train = mean_absolute_error(y_train, y_pred_train)
 r2_train = r2_score(y_train, y_pred_train)
 rmse_train = root_mean_squared_error(y_train, y_pred_train)
+evs_train = explained_variance_score(y_train, y_pred_train)
 
 print("Test regression results")
 print(f"Mean Squared error: {mse_test}")
 print(f"R-squared: {r2_test}")
 print(f"Mean absolute error: {mae_test}")
-print(f"Root Mean squared error: {rmse_test}\n")
+print(f"Root Mean squared error: {rmse_test}")
+print(f"Explained variance score: {evs_test}\n")
 
 print("Train regression results")
 print(f"Mean Squared error: {mse_train}")
 print(f"R-squared: {r2_train}")
 print(f"Mean absolute error: {mae_train}")
-print(f"Root Mean sqaured error: {rmse_train}\n")
+print(f"Root Mean sqaured error: {rmse_train}")
+print(f"Explained variance score: {evs_train}\n")
