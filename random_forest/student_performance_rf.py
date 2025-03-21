@@ -5,10 +5,8 @@ import seaborn as sns
 import warnings
 
 from sklearn.preprocessing import LabelEncoder
-from sklearn.impute import KNNImputer
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import f1_score, mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, max_error
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import plot_tree
@@ -79,6 +77,10 @@ print(f'R-squared: {r2}')
 scores = cross_val_score(regressor, X_test, y_test, cv=5, scoring='r2')
 print(f'Cross validation r2 scores: {scores}')
 print(f'Mean r2: {np.mean(scores)}')
+
+# Max error
+max_err = max_error(y_test, predictions)
+print(f'Maximum Error: {max_err}')
 
 # Feature importance
 importances = list(regressor.feature_importances_)
