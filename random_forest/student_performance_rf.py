@@ -6,7 +6,7 @@ import warnings
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score, max_error
+from sklearn.metrics import mean_squared_error, r2_score, max_error, root_mean_squared_error
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import plot_tree
@@ -45,7 +45,7 @@ print(dataframe.info())
 # Section 2 - Data cleaning and preparation 
 
 # Train the random forest model
-X = dataframe.drop(columns=["total_score"])
+X = dataframe.drop(columns=["total_score", "grade"])
 y = dataframe["total_score"]
 
 # Convert categorical features
@@ -69,6 +69,9 @@ predictions = regressor.predict(X_test)
 
 mse = mean_squared_error(y_test, predictions)
 print(f'Mean Squared Error: {mse}')
+
+rmse = root_mean_squared_error(y_test, predictions)
+print(f'Root Mean Squared Error: {rmse}')
 
 r2 = r2_score(y_test, predictions)
 print(f'R-squared: {r2}')
@@ -97,7 +100,7 @@ sns.barplot(x='Importance', y='Feature', data=importance_df, palette='viridis')
 plt.title('Feature Importance in Random Forest Model')
 plt.xlabel('Importance')
 plt.ylabel('Feature')
-#plt.show()
+plt.show()
 
 # Correlation matrix
 plt.figure(figsize=(12, 8))
