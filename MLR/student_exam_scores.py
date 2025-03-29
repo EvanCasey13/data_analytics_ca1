@@ -52,15 +52,28 @@ model = LinearRegression()
 model.fit(X_train, y_train)
 
 # Predictions
-y_pred = model.predict(X_test)
+y_pred_test = model.predict(X_test)
+y_pred_train = model.predict(X_train)
 
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-mae = mean_absolute_error(y_test, y_pred)
+#test
+test_mse = mean_squared_error(y_test, y_pred_test)
+test_r2 = r2_score(y_test, y_pred_test)
+test_mae = mean_absolute_error(y_test, y_pred_test)
 
-print(f"Mean Squared Error: {mse}")
-print(f"R-squared: {r2}")
-print(f"Mean Absolute Error: {mae}")
+print(f"Mean Squared Error: {test_mse}")
+print(f"R-squared: {test_r2}")
+print(f"Mean Absolute Error: {test_mae}")
+
+#train
+print()
+print("Train metrics")
+train_mse = mean_squared_error(y_train, y_pred_train)
+train_r2 = r2_score(y_train, y_pred_train)
+train_mae = mean_absolute_error(y_train, y_pred_train)
+
+print(f"Mean Squared Error: {train_mse}")
+print(f"R-squared: {train_r2}")
+print(f"Mean Absolute Error: {train_mae}")
 
 # Feature importantce
 print("Coefficients:", model.coef_)
