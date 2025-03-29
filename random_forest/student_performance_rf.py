@@ -65,25 +65,43 @@ regressor.fit(X_train, y_train)
 oob_score = regressor.oob_score_
 print(f'Out-of-Bag Score: {oob_score}')
 
-predictions = regressor.predict(X_test)
+y_pred_test = regressor.predict(X_test)
+y_pred_train = regressor.predict(X_train)
 
-mse = mean_squared_error(y_test, predictions)
-print(f'Mean Squared Error: {mse}')
+print("Test metrics")
+test_mse = mean_squared_error(y_test, y_pred_test)
+print(f'Mean Squared Error: {test_mse}')
 
-rmse = root_mean_squared_error(y_test, predictions)
-print(f'Root Mean Squared Error: {rmse}')
+test_rmse = root_mean_squared_error(y_test, y_pred_test)
+print(f'Root Mean Squared Error: {test_rmse}')
 
-r2 = r2_score(y_test, predictions)
-print(f'R-squared: {r2}')
+test_r2 = r2_score(y_test, y_pred_test)
+print(f'R-squared: {test_r2}')
+
+# Max error
+test_max_err = max_error(y_test, y_pred_test)
+print(f'Maximum Error: {test_max_err}')
+
+print()
+print("Train metrics")
+train_mse = mean_squared_error(y_train, y_pred_train)
+print(f'Mean Squared Error: {train_mse}')
+
+train_rmse = root_mean_squared_error(y_train, y_pred_train)
+print(f'Root Mean Squared Error: {train_rmse}')
+
+train_r2 = r2_score(y_train, y_pred_train)
+print(f'R-squared: {train_r2}')
+
+# Max error
+train_max_err = max_error(y_train, y_pred_train)
+print(f'Maximum Error: {train_max_err}')
+print()
 
 # Cross val score
 scores = cross_val_score(regressor, X_test, y_test, cv=5, scoring='r2')
 print(f'Cross validation r2 scores: {scores}')
 print(f'Mean r2: {np.mean(scores)}')
-
-# Max error
-max_err = max_error(y_test, predictions)
-print(f'Maximum Error: {max_err}')
 
 # Feature importance
 importances = list(regressor.feature_importances_)
