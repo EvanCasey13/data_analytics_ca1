@@ -1,4 +1,5 @@
 import numpy as np
+import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score
@@ -82,3 +83,8 @@ print("Intercept:", model.intercept_)
 # Cross validation for model performance
 cv_scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
 print(f"Cross-validation: {abs(cv_scores.mean())}")
+
+# Outliers boxplot
+sns.boxplot(data=dataframe[['MathScore', 'ReadingScore', 'WritingScore']])
+plt.title('Boxplot of Scores')
+plt.show()
