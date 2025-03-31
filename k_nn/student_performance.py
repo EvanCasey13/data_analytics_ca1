@@ -68,3 +68,8 @@ print(f"R-squared: {r2_train}")
 print(f"Mean absolute error: {mae_train}")
 print(f"Root Mean sqaured error: {rmse_train}")
 print(f"Explained variance score: {evs_train}\n")
+
+pd.set_option('display.max_rows', None)  # Show all rows
+correlation = dataframe.corr()["total_score"].abs().sort_values(ascending=False)
+print(correlation)
+
