@@ -77,8 +77,9 @@ print(f"R-squared: {train_r2}")
 print(f"Mean Absolute Error: {train_mae}")
 
 # Feature importantce
-print("Coefficients:", model.coef_)
-print("Intercept:", model.intercept_)
+coeff_df = pd.DataFrame(model.coef_, columns=X.columns, index=["MathScore", "ReadingScore", "WritingScore"])
+print("\nFeature Importance:")
+print(coeff_df.T) # features as rows
 
 # Cross validation for model performance
 cv_scores = cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
